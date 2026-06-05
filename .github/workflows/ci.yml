@@ -27,7 +27,8 @@ jobs:
 
     - name: Run MLflow Project (Model Retraining)
       run: |
-        mlflow run MLProject --no-conda
+        mlflow run MLProject --env-manager=local
+
 
     - name: Locate and Copy Trained Model
       run: |
