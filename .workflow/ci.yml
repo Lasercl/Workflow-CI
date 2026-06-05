@@ -33,11 +33,16 @@ jobs:
     - name: Locate and Copy Trained Model
       run: |
         # Cari direktori model yang dihasilkan di mlruns
-        MODEL_PATH=$(find mlruns/ -name "model" -type d | head -n 1)
+        MODEL_PATH=$(find . -name "model" -type d | grep "mlruns" | head -n 1)
         echo "Trained model found at: $MODEL_PATH"
+        if [ -z "$MODEL_PATH" ]; then
+          echo "ERROR: Model path not found in mlruns!"
+          exit 1
+        fi
         mkdir -p MLProject/model_dir
         cp -r "$MODEL_PATH"/* MLProject/model_dir/
         ls -la MLProject/model_dir/
+
 
     - name: Upload Trained Model as Artifact
       uses: actions/upload-artifact@v4
