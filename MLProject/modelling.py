@@ -10,8 +10,10 @@ import argparse
 mlflow.sklearn.autolog()
 
 def train_and_log_model(data_path, n_estimators, random_state):
-    # Set nama eksperimen di MLflow
-    mlflow.set_experiment("Heart_Disease_Classification")
+    # Set nama eksperimen di MLflow jika tidak dijalankan dari MLflow Project (mlflow run)
+    if "MLFLOW_RUN_ID" not in os.environ:
+        mlflow.set_experiment("Heart_Disease_Classification")
+
     
     # 2. Memuat dataset hasil preprocessing
     # Cek jika path tidak ditemukan, coba cari di fallback paths
