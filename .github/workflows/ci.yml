@@ -32,8 +32,11 @@ jobs:
 
     - name: Locate and Copy Trained Model
       run: |
-        # Cari direktori model yang dihasilkan di mlruns
-        MODEL_PATH=$(find . -name "model" -type d | grep "mlruns" | head -n 1)
+        echo "=== Current Directory Structure ==="
+        find . -maxdepth 4 -not -path '*/.*'
+        
+        # Cari direktori model yang dihasilkan di mlruns (yang berisi file MLmodel)
+        MODEL_PATH=$(find . -name "MLmodel" -exec dirname {} \; | grep "mlruns" | head -n 1)
         echo "Trained model found at: $MODEL_PATH"
         if [ -z "$MODEL_PATH" ]; then
           echo "ERROR: Model path not found in mlruns!"
@@ -42,6 +45,7 @@ jobs:
         mkdir -p MLProject/model_dir
         cp -r "$MODEL_PATH"/* MLProject/model_dir/
         ls -la MLProject/model_dir/
+
 
 
     - name: Upload Trained Model as Artifact
