@@ -13,4 +13,4 @@ COPY model_dir /opt/ml/model
 EXPOSE 8080
 
 # Run MLflow models serve on port 8080 host 0.0.0.0
-ENTRYPOINT ["mlflow", "models", "serve", "-m", "/opt/ml/model", "-h", "0.0.0.0", "-p", "8080", "--no-conda"]
+ENTRYPOINT ["mlflow", "models", "serve", "-m", "/opt/ml/model", "-h", "0.0.0.0", "-p", "8080", "--env-manager", "local"]
